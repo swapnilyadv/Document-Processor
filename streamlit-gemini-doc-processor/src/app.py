@@ -12,21 +12,15 @@ class GeminiClient:
         if not api_key:
             raise ValueError("API key not found. Please set GOOGLE_API_KEY in .env file")
         
-        # Configure the Gemini API
+        # Configure Gemini API
         genai.configure(api_key=api_key)
         
-        # Simplified model initialization
+        # Initialize model without additional configuration
         self.model = genai.GenerativeModel('gemini-pro')
     
     def send_request(self, document_text, prompt):
         try:
-            # Create a more structured prompt
-            combined_prompt = (
-                "Please analyze the following document content based on this instruction: "
-                f"{prompt}\n\nDocument content:\n{document_text}"
-            )
-            
-            # Generate response
+            combined_prompt = f"{prompt}\n\nDocument content:\n{document_text}"
             response = self.model.generate_content(combined_prompt)
             return response.text
         except Exception as e:
